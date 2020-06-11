@@ -42,6 +42,7 @@
                     resArr.push(left[leftIndex]);
                     leftIndex++;
                 }else {
+                    
                     resArr.push(right[rightIndex]);
                     rightIndex++;
                 }
@@ -52,16 +53,20 @@
         function drawSplitOfArray(arr,left,right,i) {
             j = 0;
             
-            left.forEach(element => {
-                drawBox(element,Canvas.width/2 - p,200+i)
-                console.log(element);
+                left.forEach(element => {
+                drawBox(element,Canvas.width/2 - left.length*10 + p,200+i)
+                console.log("left: " + element + " at x:%d", Canvas.width/2 -100 + p);
                 p += 20;
             });
+            console.log("left done");
+            
 
+/*
             right.forEach(element => {
                 drawBox(element,Canvas.width/2 + p,200+i)
+                console.log("right" + element);
                 p += 20;
-            });
+            });*/
         }
         function drawBox(num,x,y) {
             ctx.fillStyle = 'blue';
