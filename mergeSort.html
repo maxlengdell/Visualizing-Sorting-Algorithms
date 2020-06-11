@@ -1,0 +1,86 @@
+<html>
+
+<head>
+    <title>Merge Sort</title>
+
+</head>
+
+<body>
+    <canvas id="Canvas" width="700" height="700"></canvas>
+    <script>
+        var Canvas = document.getElementById("Canvas");
+        var ctx = Canvas.getContext("2d");
+        ctx.fillStyle = 'white';
+        ctx.strokestyle = 'black';
+        ctx.fillRect(0, 0, Canvas.width, Canvas.height);
+        //ctx.strokeRect(0, 0, Canvas.width, Canvas.height);
+
+
+        i = 0;
+        p = 0;
+        function mergeSort (arr) {
+            if (arr.length <= 1){
+                return arr;
+            }
+            const middle = Math.floor(arr.length/2);
+
+            const left = arr.slice(0, middle);
+            const right = arr.slice(middle);
+            //Visualize {
+            //Split array into two
+            drawSplitOfArray(arr,left,right, i);
+            i += 30;
+            //}
+            
+            return merge( mergeSort(left), mergeSort(right));
+        }
+        function merge(left, right) {
+            let resArr = [], leftIndex = 0, rightIndex = 0;
+
+            while(leftIndex < left.length && rightIndex < right.length) {
+                if(left[leftIndex] < right[rightIndex]){
+                    resArr.push(left[leftIndex]);
+                    leftIndex++;
+                }else {
+                    resArr.push(right[rightIndex]);
+                    rightIndex++;
+                }
+            }
+            return resArr.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
+
+        }
+        function drawSplitOfArray(arr,left,right,i) {
+            j = 0;
+            
+            left.forEach(element => {
+                drawBox(element,Canvas.width/2 - p,200+i)
+                console.log(element);
+                p += 20;
+            });
+
+            right.forEach(element => {
+                drawBox(element,Canvas.width/2 + p,200+i)
+                p += 20;
+            });
+        }
+        function drawBox(num,x,y) {
+            ctx.fillStyle = 'blue';
+            ctx.strokestyle = 'lightblue';
+            ctx.fillRect(x,y+10,10,10);
+            //ctx.strokeRect(x,y+10,10,10);
+            ctx.fillText(num,x,y);
+        }
+        function main() {
+            x = 0;
+            arr = [3,4,2,1,7,8];
+            arr.forEach(element => {
+                drawBox(element, Canvas.width/2 + x,50);
+                x += 20;
+            });
+            console.log(mergeSort(arr));
+        }
+        main();
+    </script>
+</body>
+
+</html>
