@@ -18,17 +18,25 @@
 
         i = 0;
         p = 0;
+        q = 0;
+        split = 1;
+        leftX = 100,leftY = 10,rightX = 140,rightY = 10;
         function mergeSort (arr) {
             if (arr.length <= 1){
                 return arr;
             }
             const middle = Math.floor(arr.length/2);
-
+            split += 1;
             const left = arr.slice(0, middle);
             const right = arr.slice(middle);
             //Visualize {
             //Split array into two
-            drawSplitOfArray(arr,left,right, i);
+            drawSplitOfArray(left, leftX, leftY);
+            leftX -= 20;
+            leftY += 20;
+            drawSplitOfArray(right, rightX, rightY);
+            rightX += 20;
+            rightY += 20;
             i += 30;
             //}
             
@@ -50,34 +58,31 @@
             return resArr.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
 
         }
-        function drawSplitOfArray(arr,left,right,i) {
-            j = 0;
-            
-                left.forEach(element => {
-                drawBox(element,Canvas.width/2 - left.length*10 + p,200+i)
-                console.log("left: " + element + " at x:%d", Canvas.width/2 -100 + p);
-                p += 20;
+        function drawSplitOfArray(arr,X,Y) {
+            console.log(arr);
+                arr.forEach(element => {
+                drawBox(element,X + p, Y)
+                p += 10;
             });
-            console.log("left done");
-            
-
-/*
-            right.forEach(element => {
-                drawBox(element,Canvas.width/2 + p,200+i)
-                console.log("right" + element);
-                p += 20;
-            });*/
+            p = 0;
+  
+            // console.log(right);
+            //     right.forEach(element => {
+            //     drawBox(element,Canvas.width*0.01*split + q, yrow2)
+            //     q += 20;
+            // });
+            // yrow2 += 20
         }
         function drawBox(num,x,y) {
             ctx.fillStyle = 'blue';
             ctx.strokestyle = 'lightblue';
-            ctx.fillRect(x,y+10,10,10);
+            //ctx.fillRect(x,y+10,10,10);
             //ctx.strokeRect(x,y+10,10,10);
             ctx.fillText(num,x,y);
         }
         function main() {
             x = 0;
-            arr = [3,4,2,1,7,8];
+            arr = [3,4,2,1];
             arr.forEach(element => {
                 drawBox(element, Canvas.width/2 + x,50);
                 x += 20;
