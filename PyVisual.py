@@ -7,15 +7,15 @@ screen = pygame.display.set_mode((900, 650))
 
 width = 1000
 length = 700
-array = [0]*100
-arr_clr = [('red')]*100
+array = [0]*150
+arr_clr = [('red')]*150
 Color_line = (255,0,0); #red
 clr =[(0, 204, 102), (255, 0, 0),
 (0, 0, 153), (255, 102, 0)]
 def generate():
-    for i in range(1, 100):
+    for i in range(1, len(array)):
         arr_clr[i] = (255,0,0)
-        array[i] = random.randrange(1,100)
+        array[i] = random.randrange(1,300)
     print(array)
 
 def drawLine(num,x,y):
@@ -24,7 +24,7 @@ def drawLine(num,x,y):
 
 def drawArray():
     x = 100
-    y = 100
+    y = 0
     for i in array:
         drawLine(i,x,y)
         x += 5
@@ -103,28 +103,18 @@ def main():
     global running
     running = True
     generate()
-
     while running:
         (mergeSort(array,0,len(array)-1))
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                quit()
+            if event.type == pygame.quit():
                 running = False
+                pygame.quit()
+                quit()
+            if event.type == pygame.K_RETURN:
+                print("return")
+
         update()
         pygame.display.update()
-
-
-# # Driver code to test above
-# arr = [12, 11, 13, 5, 6, 7]
-# n = len(arr)
-# print("Given array is")
-# for i in range(n):
-#     print("%d" % arr[i]),
-#
-# mergeSort(arr, 0, n - 1)
-# print("\n\nSorted array is")
-# for i in range(n):
-#     print("%d" % arr[i]),
 
 if __name__== "__main__":
     main()
