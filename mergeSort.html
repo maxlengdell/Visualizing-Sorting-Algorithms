@@ -16,78 +16,96 @@
         //ctx.strokeRect(0, 0, Canvas.width, Canvas.height);
 
 
-        i = 0;
-        p = 0;
-        q = 0;
-        split = 1;
-        leftX = 100,leftY = 10,rightX = 140,rightY = 10;
+        x = 100,y = 100;
+        
         function mergeSort (arr) {
             if (arr.length <= 1){
                 return arr;
             }
             const middle = Math.floor(arr.length/2);
-            split += 1;
             const left = arr.slice(0, middle);
             const right = arr.slice(middle);
             //Visualize {
             //Split array into two
-            drawSplitOfArray(left, leftX, leftY);
-            leftX -= 20;
-            leftY += 20;
-            drawSplitOfArray(right, rightX, rightY);
-            rightX += 20;
-            rightY += 20;
-            i += 30;
-            //}
-            
+                        
             return merge( mergeSort(left), mergeSort(right));
         }
         function merge(left, right) {
             let resArr = [], leftIndex = 0, rightIndex = 0;
 
             while(leftIndex < left.length && rightIndex < right.length) {
+                arr_clr[leftIndex] = 'red';
+                arr_clr[rightIndex] = 'red';
+                update();
+                arr_clr[leftIndex] = 'blue';
+                arr_clr[rightIndex] = 'blue';
+
                 if(left[leftIndex] < right[rightIndex]){
                     resArr.push(left[leftIndex]);
                     leftIndex++;
                 }else {
-                    
                     resArr.push(right[rightIndex]);
                     rightIndex++;
                 }
+                update();
             }
-            return resArr.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
+            console.log("resArr: " + resArr);
+            returnArray = resArr.concat(left.slice(leftIndex)).concat(right.slice(rightIndex));
+            
+            drawArray(returnArray);
+            return returnArray;
 
         }
-        function drawSplitOfArray(arr,X,Y) {
-            console.log(arr);
-                arr.forEach(element => {
-                drawBox(element,X + p, Y)
-                p += 10;
-            });
-            p = 0;
-  
-            // console.log(right);
-            //     right.forEach(element => {
-            //     drawBox(element,Canvas.width*0.01*split + q, yrow2)
-            //     q += 20;
-            // });
-            // yrow2 += 20
+
+        function delay(delay) {
+            const date = Date.now();
+            let currentDate = null;
+            do {
+                currentDate = Date.now();
+            } while (currentDate - date < delay);
+            
         }
-        function drawBox(num,x,y) {
-            ctx.fillStyle = 'blue';
-            ctx.strokestyle = 'lightblue';
-            //ctx.fillRect(x,y+10,10,10);
-            //ctx.strokeRect(x,y+10,10,10);
+        function drawBox(num,x,y,clr) {
+            ctx.fillStyle = clr;
+            //ctx.strokestyle = 'lightblue';
+            ctx.fillRect(x,y+10,10,num*10);
+            //ctx.strokeRect(x,y+10,num*10,*10);
             ctx.fillText(num,x,y);
         }
-        function main() {
-            x = 0;
-            arr = [3,4,2,1];
-            arr.forEach(element => {
-                drawBox(element, Canvas.width/2 + x,50);
+        function drawArray(){
+            
+            for(i = 0; i < arr.length; i ++){
+                drawBox(arr[i],x,y,arr_clr[i]);
                 x += 20;
-            });
-            console.log(mergeSort(arr));
+            }
+            x = 100;
+        }
+
+        function update() {
+            clearCanvas();
+            drawArray();
+
+            
+        }
+        arr = [3,4,2,1,6,2];
+        arr_clr = [];
+        function setClr(){
+            arr_clr.length = arr.length;
+            for(i = 0; i < arr.length; i++){
+                arr_clr[i] = 'blue';
+            }
+        }
+        function main() {
+            //drawBox(10,150,150,'red');
+            clearCanvas();
+            setClr();
+            update();
+            mergeSort(arr);
+        }
+
+        function clearCanvas() {
+            const context = Canvas.getContext('2d');
+            context.clearRect(0, 0, Canvas.width, Canvas.height);
         }
         main();
     </script>
